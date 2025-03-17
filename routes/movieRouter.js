@@ -1,9 +1,17 @@
-import express from 'express';
-import movieController from '../controllers/movieController.js';  
-import { index, show, destroy } from '../controllers/movieController.js';
+import express from 'express'
 
-const router = express.Router();    
+const router = express.Router()
 
-router.get('/', movieController.getMovies);
-router.get('/:id', movieController.getMovieById);
-router.delete('/:id', movieController.deleteMovie);
+import {index, show, destroy} from '../controllers/movieController.js'
+
+
+//index
+router.get( '/', index );
+
+//show
+router.get( '/:id', show )
+
+//destroy
+router.delete( '/:id', destroy )
+
+export default router
