@@ -10,13 +10,13 @@ app.get( '/', (req, res) => {
   res.send( 'Server movie tutto a posto!' )
 } )
 
-app.use(cors());
+//app.use(cors());
 
-/*app.use(
+app.use(
   cors({
     origin: process.env.FRONTEND_APP,
   })
-);*/
+);
 
 //middleware per gestire asset statici
 app.use( express.static('public') )

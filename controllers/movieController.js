@@ -26,7 +26,7 @@ function index(req, res){
 function show(req, res){
     const {id} = req.params;
 
-    const movieSql = 'SELECT * FROM movie WHERE id= ?'
+    const movieSql = 'SELECT * FROM movies WHERE id= ?'
 
     const reviewsSql = 'SELECT * FROM reviews WHERE movie_id = ?'
 
@@ -46,21 +46,22 @@ function show(req, res){
                 error: 'Errore lato server SHOW function'
             })
 
-           movie.reviews = reviewsResults
-            // res.json( movie)
+            movie.reviews = reviewsResults
+           
 
 
             res.json({
                 ...movie,
-                //image: req.imagePath + movie.image
+                image: req.imagePath + movie.image
             })
 
-            res.json(movie)
+           
 
         })
     }) 
 
 }
+
 
 function destroy(req, res){
     const {id} = req.params;
