@@ -1,30 +1,32 @@
 import express from 'express';
-import movieRouter from './routes/movieRouter.js';
-import cors from 'cors';
 
 const app = express();
-const port = 3000;
+import cors from 'cors';
+const port = process.env.SERVER_PORT || 3000;
 
-//rotta di test
-app.get( '/', (req, res) => {
-  res.send( 'Server movie tutto a posto!' )
-} )
+import movieRouter from './routes/movieRouter.js';
+import imagePath from './middlewares/imagePath.js';
 
-//app.use(cors());
-
+//middleware cors
 app.use(
   cors({
     origin: process.env.FRONTEND_APP,
   })
 );
 
-//middleware per gestire asset statici
-app.use( express.static('public') )
+app.use(express.static('public'));
+app.use("/images", express.static("public/images"));
 
 app.use(express.json());
+
+app.use(imagePath);
+
+app.get('/', (req, res) => {
+  res.send('Server Movie tutto a posto!');
+});
+
 app.use('/movies', movieRouter);
 
-
 app.listen(port, () => {
-  console.log(`Server movie funziona sulla porta ${port}`);
+  console.log(`Server Movies in funzione sulla porta: ${port}`);
 });
