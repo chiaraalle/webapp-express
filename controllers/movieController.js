@@ -1,5 +1,27 @@
 import connection from '../data/db.js';
 
+function storeReview(req, res) {
+    const { id } = req.params;
+  
+    const { text, name, vote } = req.body;
+  
+    const sql =
+      'INSERT INTO reviews ( text, name, vote, movie_id ) VALUES (?,?,?,?)';
+  
+    connection.query(sql, [text, name, vote, id], (err, results) => {
+      if (err)
+        return res.status(500).json({
+          error: 'Database Errore StoreReview',
+        });
+  
+      res.status(201);
+      res.json({
+        message: 'review Added',
+        id: results.insertId,
+      });
+    });
+  }
+
 function index(req, res){
     const sql = 'SELECT * FROM movies';
 
@@ -54,6 +76,29 @@ function show(req, res) {
     });
 }
 
+function store(req,res){
+    //recuparare le info da req.body
+    const { title, director, genre, abstract} = req.body
+
+    const imageName = `${req.file.filename}`
+
+    const sql = "INSERT INTO movies (title, director, genre, image, abstract) VALUES (?,?,?,?,?)"
+
+    connection.query( sql, [title, director, genre, imageName, abstract], (err, results) => {
+        if(err) return res.status(500).json({
+            error: 'Database Errore Store'
+        })
+
+        res.status(201).json({
+            status: "success",
+            message: "Film creato con successo",
+            id: results.insertId
+        }
+        )
+    })
+
+}
+
 function destroy(req, res){
     const {id} = req.params;
 
@@ -72,5 +117,7 @@ function destroy(req, res){
 export {
     index,
     show,
-    destroy
+    destroy,
+    storeReview,
+    store
 }
