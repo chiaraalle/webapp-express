@@ -36,7 +36,7 @@ function index(req, res){
 
         const movies = results.map(movie => {
             return {
-                ...movie,
+                ...movie, //spread per prendere tutto quello che c'era già prima dentro
                 image: movie.image ? req.imagePath + movie.image : req.imagePath 
             };
         });
